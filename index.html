@@ -152,7 +152,13 @@
         data.items.forEach(item => {
           const fields = item.fields;
           const title = fields.title || "Untitled";
-          const description = fields.description || "No description available.";
+          let description = "No description available.";
+          if (fields.body && fields.body.content) {
+            description = fields.body.content.map(block => {
+              return block.content.map(child => child.value || '').join('');
+            }).join('
+');
+          }
 
           const courseBlock = document.createElement("div");
           courseBlock.className = "bg-white shadow-md rounded-lg p-6 mb-6 flex flex-col md:flex-row items-start space-x-0 md:space-x-6";
